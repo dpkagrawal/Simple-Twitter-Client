@@ -58,16 +58,13 @@ public class HomeFeedActivity extends Activity {
 		MyTwitterApp.getRestClient().getTweets(new JsonHttpResponseHandler() {
 			@Override
 			public void onSuccess(JSONArray jsonTweets) {
-				tweets = Tweet.parseJsonArray(jsonTweets);
-				// Log.d("DEBUG", tweets.toString());
-				tweetAdapter.addAll(tweets);
+				tweetAdapter.addAll(Tweet.parseJsonArray(jsonTweets));
 			}
 		}, parameters);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.home_feed, menu);
 		return true;
 	}

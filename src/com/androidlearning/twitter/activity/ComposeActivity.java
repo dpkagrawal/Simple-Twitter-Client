@@ -39,7 +39,6 @@ public class ComposeActivity extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.compose, menu);
 		return true;
 	}
@@ -71,7 +70,6 @@ public class ComposeActivity extends Activity {
 
 			@Override
 			public void onFailure(Throwable arg0, JSONObject arg1) {
-
 				Log.d("DEBUG", arg0.toString());
 				Log.d("DEBUG", arg1.toString());
 			}

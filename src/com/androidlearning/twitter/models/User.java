@@ -13,6 +13,14 @@ public class User implements Serializable {
 	private String location;
 	private String userProfileImage;
 	String screenName;
+
+	public User() {}
+
+	public User(String name, String location) {
+		this.name = name;
+		this.location = location;
+	}
+
 	public String getScreenName() {
 		return screenName;
 	}
@@ -20,13 +28,6 @@ public class User implements Serializable {
 	public void setScreenName(String screenName) {
 		this.screenName = screenName;
 	}
-	public User(String name, String location) {
-		this.name = name;
-		this.location = location;
-
-	}
-
-	public User() {}
 
 	public String getName() {
 		return name;
