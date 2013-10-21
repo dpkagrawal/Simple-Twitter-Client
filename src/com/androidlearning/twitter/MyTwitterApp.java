@@ -1,4 +1,4 @@
-package com.androidlearning.twiiter;
+package com.androidlearning.twitter;
 
 import android.content.Context;
 

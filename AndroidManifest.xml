@@ -12,7 +12,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name="com.androidlearning.twiiter.MyTwitterApp"
+        android:name="com.androidlearning.twitter.MyTwitterApp"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -46,6 +46,10 @@
         <activity
             android:name="com.androidlearning.twitter.activity.HomeFeedActivity"
             android:label="@string/title_activity_home_feed" >
+        </activity>
+        <activity
+            android:name="com.androidlearning.twitter.activity.ComposeActivity"
+            android:label="@string/title_activity_compose" >
         </activity>
     </application>
 

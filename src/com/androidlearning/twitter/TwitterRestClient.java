@@ -1,6 +1,4 @@
-package com.androidlearning.twiiter;
-
-import java.util.HashMap;
+package com.androidlearning.twitter;
 
 import org.scribe.builder.api.Api;
 import org.scribe.builder.api.TwitterApi;
@@ -38,6 +36,17 @@ public class TwitterRestClient extends OAuthBaseClient {
         String apiUrl = getApiUrl("statuses/home_timeline.json");
         client.get(apiUrl, params, handler);
     }
+    
+    public void getUserInfo(AsyncHttpResponseHandler handler) {
+    	String apiUrl = getApiUrl("account/verify_credentials.json");
+    	client.get(apiUrl, handler);
+    }
+    
+    public void postTweet(AsyncHttpResponseHandler handler, RequestParams params) {
+    	String apiUrl = getApiUrl("statuses/update.json");
+    	client.post(apiUrl, params, handler);
+    }
+    
     
     /* 1. Define the endpoint URL with getApiUrl and pass a relative path to the endpoint
      * 	  i.e getApiUrl("statuses/home_timeline.json");

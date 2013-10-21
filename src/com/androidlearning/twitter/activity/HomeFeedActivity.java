@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ListView;
 
-import com.androidlearning.twiiter.EndlessScrollListener;
-import com.androidlearning.twiiter.MyTwitterApp;
+import com.androidlearning.twitter.EndlessScrollListener;
+import com.androidlearning.twitter.MyTwitterApp;
 import com.androidlearning.twitter.R;
 import com.androidlearning.twitter.adapter.TweetAdapter;
 import com.androidlearning.twitter.models.Tweet;
@@ -69,5 +71,24 @@ public class HomeFeedActivity extends Activity {
 		getMenuInflater().inflate(R.menu.home_feed, menu);
 		return true;
 	}
-
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch(item.getItemId()) {
+		case R.id.action_compose:
+			startComposeActivity();
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+	
+	public void startComposeActivity() {
+		Intent i = new Intent(this, ComposeActivity.class);
+		startActivityForResult(i, 1);
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		tweetAdapter.insert((Tweet) data.getSerializableExtra("tweet"),0);
+	}
 }
