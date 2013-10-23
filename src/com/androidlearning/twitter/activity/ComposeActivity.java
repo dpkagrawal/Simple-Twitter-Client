@@ -14,9 +14,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.activeandroid.query.Select;
 import com.androidlearning.twitter.MyTwitterApp;
 import com.androidlearning.twitter.R;
 import com.androidlearning.twitter.models.Tweet;
+import com.androidlearning.twitter.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -31,10 +33,12 @@ public class ComposeActivity extends Activity {
 				Context.MODE_PRIVATE);
 		ImageView userImage = (ImageView) findViewById(R.id.userProfileImage);
 		TextView userScreenName = (TextView) findViewById(R.id.etScreenName);
-		ImageLoader.getInstance().displayImage(
-				prefs.getString("user_image", ""), userImage);
-		userScreenName.setText(" @"
-				+ prefs.getString("screen_name", "@your_name"));
+
+		Integer userId = prefs.getInt("user_id", 0);
+		User user = new Select().from(User.class).where("user_id = ?" , userId).executeSingle();
+		ImageLoader.getInstance().displayImage(user.getProfileUserImage(), userImage);
+
+		userScreenName.setText(" @" + user.getScreenName());
 	}
 
 	@Override

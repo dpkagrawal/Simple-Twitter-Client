@@ -14,6 +14,7 @@ import android.view.View;
 import com.androidlearning.twitter.MyTwitterApp;
 import com.androidlearning.twitter.R;
 import com.androidlearning.twitter.TwitterRestClient;
+import com.androidlearning.twitter.models.User;
 import com.codepath.oauth.OAuthLoginActivity;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -43,14 +44,9 @@ public class LoginActivity extends OAuthLoginActivity<TwitterRestClient> {
 		MyTwitterApp.getRestClient().getUserInfo(new JsonHttpResponseHandler() {
 			@Override
 			public void onSuccess(JSONObject json) {
-				try {
-					prefs.edit().putString("user_name", json.getString("name")).commit();;
-					prefs.edit().putString("screen_name", json.getString("screen_name")).commit();;
-					prefs.edit().putString("user_image",
-							json.getString("profile_image_url")).commit();;
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
+						User user = User.parse(json);
+    					user.save();
+    					prefs.edit().putInt("user_id", user.getUserId()).commit();
 			}
 		});
 		Intent i = new Intent(this, HomeFeedActivity.class);
