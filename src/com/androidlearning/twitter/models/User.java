@@ -29,7 +29,17 @@ public class User extends Model implements Serializable {
 	@Column(name = "screen_name")
 	String screenName;
 
-	public User() {}
+	@Column(name = "followers_count")
+	String followersCount;
+
+	@Column(name = "following")
+	String following;
+
+	@Column(name = "tagline")
+	String tagLine;
+
+	public User() {
+	}
 
 	public User(String name, String location) {
 		this.name = name;
@@ -75,7 +85,7 @@ public class User extends Model implements Serializable {
 	public void setProfileUserImage(String userProfileImage) {
 		this.userProfileImage = userProfileImage;
 	}
-	
+
 	public static User parse(JSONObject json) {
 		User user = new User();
 		try {
@@ -84,9 +94,44 @@ public class User extends Model implements Serializable {
 			user.location = json.getString("location");
 			user.userProfileImage = json.getString("profile_image_url");
 			user.screenName = json.getString("screen_name");
+			user.followersCount = json.getString("followers_count");
+			user.following = json.getString("friends_count");
+			user.tagLine = json.getString("description");
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 		return user;
+	}
+
+	public String getUserProfileImage() {
+		return userProfileImage;
+	}
+
+	public void setUserProfileImage(String userProfileImage) {
+		this.userProfileImage = userProfileImage;
+	}
+
+	public String getFollowersCount() {
+		return followersCount;
+	}
+
+	public void setFollowersCount(String followersCount) {
+		this.followersCount = followersCount;
+	}
+
+	public String getFollowing() {
+		return following;
+	}
+
+	public void setFollowing(String following) {
+		this.following = following;
+	}
+
+	public String getTagLine() {
+		return tagLine;
+	}
+
+	public void setTagLine(String tagLine) {
+		this.tagLine = tagLine;
 	}
 }

@@ -22,38 +22,61 @@ import com.loopj.android.http.RequestParams;
  * 
  */
 public class TwitterRestClient extends OAuthBaseClient {
-    public static final Class<? extends Api> REST_API_CLASS = TwitterApi.class; // Change this
-    public static final String REST_URL = "https://api.twitter.com/1.1"; // Change this, base API URL
-    public static final String REST_CONSUMER_KEY = "iqqDnDxTuT6DSpREjGWA";       // Change this
-    public static final String REST_CONSUMER_SECRET = "DOOgTHE7qfxOnp2nKMSuD5WxsazI4ETNdSvs8xJClTM"; // Change this
-    public static final String REST_CALLBACK_URL = "oauth://cprest"; // Change this (here and in manifest)
-    
-    public TwitterRestClient(Context context) {
-        super(context, REST_API_CLASS, REST_URL, REST_CONSUMER_KEY, REST_CONSUMER_SECRET, REST_CALLBACK_URL);
-    }
-    
-    public void getTweets(AsyncHttpResponseHandler handler, RequestParams params) {
-        String apiUrl = getApiUrl("statuses/home_timeline.json");
-        client.get(apiUrl, params, handler);
-    }
-    
-    public void getUserInfo(AsyncHttpResponseHandler handler) {
-    	String apiUrl = getApiUrl("account/verify_credentials.json");
-    	client.get(apiUrl, handler);
-    }
-    
-    public void postTweet(AsyncHttpResponseHandler handler, RequestParams params) {
-    	String apiUrl = getApiUrl("statuses/update.json");
-    	client.post(apiUrl, params, handler);
-    }
-    
-    
-    /* 1. Define the endpoint URL with getApiUrl and pass a relative path to the endpoint
-     * 	  i.e getApiUrl("statuses/home_timeline.json");
-     * 2. Define the parameters to pass to the request (query or body)
-     *    i.e RequestParams params = new RequestParams("foo", "bar");
-     * 3. Define the request method and make a call to the client
-     *    i.e client.get(apiUrl, params, handler);
-     *    i.e client.post(apiUrl, params, handler);
-     */
+	public static final Class<? extends Api> REST_API_CLASS = TwitterApi.class; // Change
+																				// this
+	public static final String REST_URL = "https://api.twitter.com/1.1"; // Change
+																			// this,
+																			// base
+																			// API
+																			// URL
+	public static final String REST_CONSUMER_KEY = "iqqDnDxTuT6DSpREjGWA"; // Change
+																			// this
+	public static final String REST_CONSUMER_SECRET = "DOOgTHE7qfxOnp2nKMSuD5WxsazI4ETNdSvs8xJClTM"; // Change
+																										// this
+	public static final String REST_CALLBACK_URL = "oauth://cprest"; // Change
+																		// this
+																		// (here
+																		// and
+																		// in
+																		// manifest)
+
+	public TwitterRestClient(Context context) {
+		super(context, REST_API_CLASS, REST_URL, REST_CONSUMER_KEY,
+				REST_CONSUMER_SECRET, REST_CALLBACK_URL);
+	}
+
+	public void getTweets(AsyncHttpResponseHandler handler, RequestParams params) {
+		String apiUrl = getApiUrl("statuses/home_timeline.json");
+		client.get(apiUrl, params, handler);
+	}
+
+	public void getUserInfo(AsyncHttpResponseHandler handler) {
+		String apiUrl = getApiUrl("account/verify_credentials.json");
+		client.get(apiUrl, handler);
+	}
+
+	public void postTweet(AsyncHttpResponseHandler handler, RequestParams params) {
+		String apiUrl = getApiUrl("statuses/update.json");
+		client.post(apiUrl, params, handler);
+	}
+
+	public void getMentionsTimeline(AsyncHttpResponseHandler handler,
+			RequestParams params) {
+		String apiUrl = getApiUrl("statuses/mentions_timeline.json");
+		client.get(apiUrl, params, handler);
+	}
+	
+	public void getUserTimeline(AsyncHttpResponseHandler handler) {
+		String apiUrl = getApiUrl("statuses/user_timeline.json");
+		client.get(apiUrl, null, handler);
+	}
+
+	/*
+	 * 1. Define the endpoint URL with getApiUrl and pass a relative path to the
+	 * endpoint i.e getApiUrl("statuses/home_timeline.json"); 2. Define the
+	 * parameters to pass to the request (query or body) i.e RequestParams
+	 * params = new RequestParams("foo", "bar"); 3. Define the request method
+	 * and make a call to the client i.e client.get(apiUrl, params, handler);
+	 * i.e client.post(apiUrl, params, handler);
+	 */
 }

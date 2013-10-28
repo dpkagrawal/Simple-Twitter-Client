@@ -1,66 +1,42 @@
 package com.androidlearning.twitter.activity;
 
-import java.util.ArrayList;
-
-import org.json.JSONArray;
-
-import android.app.Activity;
+import android.app.ActionBar;
+import android.app.ActionBar.Tab;
+import android.app.ActionBar.TabListener;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ListView;
 
-import com.androidlearning.twitter.EndlessScrollListener;
-import com.androidlearning.twitter.MyTwitterApp;
+import com.androidlearning.twitter.ProfileActivity;
 import com.androidlearning.twitter.R;
-import com.androidlearning.twitter.adapter.TweetAdapter;
+import com.androidlearning.twitter.fragment.HomeFeedFragment;
+import com.androidlearning.twitter.fragment.MentionsFragment;
+import com.androidlearning.twitter.fragment.TweetsFragment;
 import com.androidlearning.twitter.models.Tweet;
-import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
 
-public class HomeFeedActivity extends Activity {
-	private String  TWEET_COUNT = "20";
-	public ArrayList<Tweet> tweets = new ArrayList<Tweet>();
-	public TweetAdapter tweetAdapter;
-	public ListView lvTweets;
+public class HomeFeedActivity extends FragmentActivity implements TabListener {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home_feed);
-
-		lvTweets = (ListView) findViewById(R.id.lvTweets);
-		tweetAdapter = new TweetAdapter(getApplicationContext(), tweets);
-		lvTweets.setAdapter(tweetAdapter);
-		
-		RequestParams params = new RequestParams();
-		params.put("count", TWEET_COUNT);
-		getMoreTweets(params);
-		setupOnScroll();
+		setupNavigationBar();
 	}
 
-	private void setupOnScroll() {
-		lvTweets.setOnScrollListener(new EndlessScrollListener() {
-
-			@Override
-			public void onLoadMore(int page, int totalItemsCount) {
-				RequestParams params = new RequestParams();
-				params.put("count", TWEET_COUNT);
-				Tweet t = tweetAdapter.getItem(tweetAdapter.getCount() - 1);
-				params.put("max_id", t.getId());
-				getMoreTweets(params);
-			}
-		});
-	}
-
-	private void getMoreTweets(RequestParams parameters) {
-		MyTwitterApp.getRestClient().getTweets(new JsonHttpResponseHandler() {
-			@Override
-			public void onSuccess(JSONArray jsonTweets) {
-				tweetAdapter.addAll(Tweet.parseJsonArray(jsonTweets));
-			}
-		}, parameters);
+	private void setupNavigationBar() {
+		ActionBar ab = getActionBar();
+		ab.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		ab.setDisplayShowTitleEnabled(true);
+		Tab tabHome = ab.newTab().setText("Home")
+				.setTag("HomeTimelineFragment").setTabListener(this);
+		Tab tabMention = ab.newTab().setText("Mention")
+				.setTag("MentionFragment").setTabListener(this);
+		ab.addTab(tabHome);
+		ab.addTab(tabMention);
+		ab.selectTab(tabHome);
 	}
 
 	@Override
@@ -68,24 +44,55 @@ public class HomeFeedActivity extends Activity {
 		getMenuInflater().inflate(R.menu.home_feed, menu);
 		return true;
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch(item.getItemId()) {
+		switch (item.getItemId()) {
 		case R.id.action_compose:
 			startComposeActivity();
+			return true;
+		case R.id.action_profile:
+			startProfileActivity();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
+	public void startProfileActivity() {
+		Intent i = new Intent(this, ProfileActivity.class);
+		startActivity(i);
+	}
+
 	public void startComposeActivity() {
 		Intent i = new Intent(this, ComposeActivity.class);
 		startActivityForResult(i, 1);
 	}
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		tweetAdapter.insert((Tweet) data.getSerializableExtra("tweet"),0);
+		 //tweetFragment.getTweetAdapter().insert((Tweet)
+		 //data.getSerializableExtra("tweet"),0);
+	}
+
+	@Override
+	public void onTabReselected(Tab tab, android.app.FragmentTransaction ft) {
+	}
+
+	@Override
+	public void onTabSelected(Tab tab, android.app.FragmentTransaction ft) {
+		android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+		FragmentTransaction fts = fm.beginTransaction();
+		if (tab.getTag() == "HomeTimelineFragment") {
+			fts.replace(R.id.frame_container, new HomeFeedFragment());
+		} else {
+			fts.replace(R.id.frame_container, new MentionsFragment());
+		}
+		fts.commit();
+	}
+
+	@Override
+	public void onTabUnselected(Tab tab, android.app.FragmentTransaction ft) {
+		// TODO Auto-generated method stub
+
 	}
 }
