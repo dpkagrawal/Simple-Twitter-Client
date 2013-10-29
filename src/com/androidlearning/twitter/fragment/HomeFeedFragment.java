@@ -9,6 +9,8 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
 
 public class HomeFeedFragment extends TweetsFragment {
 
@@ -50,5 +52,4 @@ public class HomeFeedFragment extends TweetsFragment {
 			}
 		}, parameters);
 	}
-
 }

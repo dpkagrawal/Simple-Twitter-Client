@@ -41,25 +41,30 @@
             android:layout_below="@id/userName"
             android:text="Tagline"
             android:textSize="16sp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/otherInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" 
+        android:layout_below="@id/profileInfo" >
 
         <TextView
             android:id="@+id/userFollowing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/profileImage"
-            android:text="Following"
+            android:text="0 Following"
             android:textSize="16sp" />
 
         <TextView
             android:id="@+id/userFollower"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/profileImage"
             android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@id/userFollowing"
-            android:text="Follwer"
+            android:text="0 Follwer"
             android:textSize="16sp" />
-    </RelativeLayout>
+    </LinearLayout>
 
     <fragment
         android:id="@+id/userTimelineFragment"
@@ -68,7 +73,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@id/profileInfo"
+        android:layout_below="@id/otherInfo"
         tools:layout="@layout/fragment_tweet_list" />
 
 </RelativeLayout>

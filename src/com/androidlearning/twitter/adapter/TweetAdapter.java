@@ -33,16 +33,13 @@ public class TweetAdapter extends ArrayAdapter<Tweet> {
 		}
 		ImageView userProfileImage = (ImageView) view
 				.findViewById(R.id.user_image);
+		userProfileImage.setTag(tweet.getUser().getScreenName());
 		ImageLoader.getInstance().displayImage(
 				tweet.getUser().getProfileUserImage(), userProfileImage);
 
 		TextView userName = (TextView) view.findViewById(R.id.tvName);
 		TextView userTweet = (TextView) view.findViewById(R.id.tvBody);
 		TextView tweetTimestamp = (TextView) view.findViewById(R.id.tvTimestamp);
-
-//		String formattedName = "<b>" + tweet.getUser().getName() + "</b>"
-//				+ "<small><font color ='#777777>@" + tweet.getUser().getScreenName()
-//				+ "</small></font>";
 
 		String formattedName = "<b>" + tweet.getUser().getName() + "</b>" + " @" + tweet.getUser().getScreenName();
 		

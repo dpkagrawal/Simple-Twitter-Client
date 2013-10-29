@@ -5,10 +5,13 @@ import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract.Profile;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 import com.androidlearning.twitter.ProfileActivity;
 import com.androidlearning.twitter.R;
@@ -60,6 +63,7 @@ public class HomeFeedActivity extends FragmentActivity implements TabListener {
 
 	public void startProfileActivity() {
 		Intent i = new Intent(this, ProfileActivity.class);
+		i.putExtra("current_user", true );
 		startActivity(i);
 	}
 
@@ -94,5 +98,13 @@ public class HomeFeedActivity extends FragmentActivity implements TabListener {
 	public void onTabUnselected(Tab tab, android.app.FragmentTransaction ft) {
 		// TODO Auto-generated method stub
 
+	}
+	
+	public void onProfileImageClick(View v) {
+		Intent i = new Intent(this, ProfileActivity.class);
+		//ImageView imgView = (ImageView) v;
+		i.putExtra("current_user", false );
+		i.putExtra("screen_name", v.getTag().toString());
+		startActivity(i);
 	}
 }

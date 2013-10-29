@@ -2,15 +2,14 @@ package com.androidlearning.twitter;
 
 import org.json.JSONObject;
 
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.R.bool;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.activeandroid.query.Select;
 import com.androidlearning.twitter.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -22,7 +21,14 @@ public class ProfileActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_profile);
-		getUserInfo();
+		Intent i = getIntent();
+		boolean current_user = i.getBooleanExtra("current_user", false);
+
+		if (current_user) {
+			getUserInfo();
+		} else {
+			getUserInfoByScreenName(i.getStringExtra("screen_name"));
+		}
 	}
 
 	private void populateProfileFields() {
@@ -51,6 +57,21 @@ public class ProfileActivity extends FragmentActivity {
 				populateProfileFields();
 			}
 		});
+	}
+
+	public void getUserInfoByScreenName(String screenName) {
+		MyTwitterApp.getRestClient().getUserInfoByScreenName(
+				new JsonHttpResponseHandler() {
+					@Override
+					public void onSuccess(JSONObject json) {
+						user = User.parse(json);
+						populateProfileFields();
+					}
+				}, screenName);
+	}
+	
+	public User getUser() {
+		return user;
 	}
 
 	@Override
