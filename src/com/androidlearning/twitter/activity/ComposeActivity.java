@@ -34,8 +34,7 @@ public class ComposeActivity extends Activity {
 		ImageView userImage = (ImageView) findViewById(R.id.userProfileImage);
 		TextView userScreenName = (TextView) findViewById(R.id.etScreenName);
 
-		Integer userId = prefs.getInt("user_id", 0);
-		User user = new Select().from(User.class).where("user_id = ?" , userId).executeSingle();
+		User user = User.getUser(prefs.getInt("user_id", 0));
 		ImageLoader.getInstance().displayImage(user.getProfileUserImage(), userImage);
 
 		userScreenName.setText(" @" + user.getScreenName());

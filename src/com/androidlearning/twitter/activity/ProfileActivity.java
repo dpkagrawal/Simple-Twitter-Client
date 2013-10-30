@@ -1,8 +1,7 @@
-package com.androidlearning.twitter;
+package com.androidlearning.twitter.activity;
 
 import org.json.JSONObject;
 
-import android.R.bool;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -10,6 +9,9 @@ import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.androidlearning.twitter.MyTwitterApp;
+import com.androidlearning.twitter.R;
+import com.androidlearning.twitter.fragment.UserTimelineFragment;
 import com.androidlearning.twitter.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -22,13 +24,10 @@ public class ProfileActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_profile);
 		Intent i = getIntent();
-		boolean current_user = i.getBooleanExtra("current_user", false);
-
-		if (current_user) {
-			getUserInfo();
-		} else {
-			getUserInfoByScreenName(i.getStringExtra("screen_name"));
-		}
+		String screenName = i.getStringExtra("screen_name");
+		UserTimelineFragment uf = (UserTimelineFragment)getSupportFragmentManager().findFragmentById(R.id.userTimelineFragment);
+		uf.setScreenName(screenName);
+		getUserInfoByScreenName(screenName);
 	}
 
 	private void populateProfileFields() {

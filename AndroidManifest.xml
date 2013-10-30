@@ -14,7 +14,7 @@
     <application
         android:name="com.androidlearning.twitter.MyTwitterApp"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/twitter_icon"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <meta-data
@@ -52,7 +52,7 @@
             android:label="@string/title_activity_compose" >
         </activity>
         <activity
-            android:name="com.androidlearning.twitter.ProfileActivity"
+            android:name="com.androidlearning.twitter.activity.ProfileActivity"
             android:label="@string/title_activity_profile" >
         </activity>
     </application>

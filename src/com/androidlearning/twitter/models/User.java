@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Select;
 
 @Table(name = "users")
 public class User extends Model implements Serializable {
@@ -133,5 +134,11 @@ public class User extends Model implements Serializable {
 
 	public void setTagLine(String tagLine) {
 		this.tagLine = tagLine;
+	}
+	
+	public static User getUser(int id) {
+		User user = new Select().from(User.class).where("user_id = ?" , id).executeSingle();
+		return user;
+	
 	}
 }

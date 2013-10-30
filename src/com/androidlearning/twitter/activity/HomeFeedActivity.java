@@ -3,7 +3,9 @@ package com.androidlearning.twitter.activity;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.ContactsContract.Profile;
 import android.support.v4.app.FragmentActivity;
@@ -13,12 +15,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.androidlearning.twitter.ProfileActivity;
 import com.androidlearning.twitter.R;
 import com.androidlearning.twitter.fragment.HomeFeedFragment;
 import com.androidlearning.twitter.fragment.MentionsFragment;
 import com.androidlearning.twitter.fragment.TweetsFragment;
 import com.androidlearning.twitter.models.Tweet;
+import com.androidlearning.twitter.models.User;
 
 public class HomeFeedActivity extends FragmentActivity implements TabListener {
 
@@ -63,6 +65,11 @@ public class HomeFeedActivity extends FragmentActivity implements TabListener {
 
 	public void startProfileActivity() {
 		Intent i = new Intent(this, ProfileActivity.class);
+		
+		SharedPreferences prefs = this.getSharedPreferences("user_info",
+				Context.MODE_PRIVATE);
+		User user = User.getUser(prefs.getInt("user_id", 0));
+		i.putExtra("screen_name", user.getScreenName());
 		i.putExtra("current_user", true );
 		startActivity(i);
 	}
@@ -74,8 +81,8 @@ public class HomeFeedActivity extends FragmentActivity implements TabListener {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		 //tweetFragment.getTweetAdapter().insert((Tweet)
-		 //data.getSerializableExtra("tweet"),0);
+		TweetsFragment tf = (TweetsFragment) getSupportFragmentManager().findFragmentById(R.id.frame_container);
+		tf.getTweetAdapter().insert((Tweet)data.getSerializableExtra("tweet"),0);
 	}
 
 	@Override
